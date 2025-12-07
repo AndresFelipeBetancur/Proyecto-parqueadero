@@ -1,3 +1,28 @@
+
+def ingresar_vehiculo(consecutivo):
+    vehiculo = []
+
+    bandera = False
+    tipo = input("Digite su tipo de vehículo (a : automóvil, m: moto, b: bicicleta ): >")
+    if tipo != a:
+        if tipo != m:
+            if tipo != b:
+                bandera = True
+
+    placa = consecutivo
+
+    if tipo == a:
+        placa = input("Digite número de la placa (auto:3 letras seguidas de 3 números, moto: tres letras: >")
+
+    elif tipo == m:
+        placa = input("Digite número de la placa (auto:3 letras seguidas de 3 números, moto: tres letras seguida de dos números, seguida de una letra): >")
+
+    hora = int(input("Hora (el formato de 24 horas: hhmm ): >"))
+    fecha = int(input("Fecha (ddmmyyyy): >"))
+    nombre = input("Nombre del cliente: >")
+
+
+
 def dias_en_mes(mes,bisiesto):
     if mes == 2:
         if bisiesto == True:
@@ -16,39 +41,52 @@ def dias_en_mes(mes,bisiesto):
             dias = 30
         else:
             dias = 31
-            
+
     return dias
 
 def fecha_vigencia(ingreso):
+    bandera = False
+
     dia = ingreso // 1000000
+    if dia > 31:
+        bandera = True
+
     mes = (ingreso // 10000) % 100
+    if mes > 12:
+        bandera = True
+
     año = ingreso % 10000
 
-    if año % 4 == 0:
-        if año % 100 != 0:
-            bisiesto = True
-        else:
-            if año % 400 == 0:
+    if bandera == False:
+        if año % 4 == 0:
+            if año % 100 != 0:
                 bisiesto = True
             else:
-                bisiesto = False
+                if año % 400 == 0:
+                    bisiesto = True
+                else:
+                    bisiesto = False
+        else:
+            bisiesto = False
+
+        cantidad_dias = dias_en_mes(mes,bisiesto)
+
+        dia = dia + 30
+
+        if dia <= cantidad_dias:
+            vigencia = (dia * 1000000) + (mes * 10000) + año
+        else:
+            dia = dia - cantidad_dias
+            mes = mes + 1
+            if mes > 12:
+                año = año + 1
+                mes = 1
+            vigencia = (dia * 1000000) + (mes * 10000) + año
+
+        return vigencia
+
     else:
-        bisiesto = False
-
-    cantidad_dias = dias_en_mes(mes,bisiesto)
-
-    dia = dia + 30
-
-    if dia < cantidad_dias:
-        vigencia = (dia * 1000000) + (mes * 10000) + año
-    else:
-        dia = dia - cantidad_dias
-        mes = mes + 1
-        if año == 12:
-            año = año + 1
-        vigencia = (dia * 1000000) + (mes * 10000) + año
-        
-    return vigencia
+        print("Fecha ingresada incorrecta")
 
 
 def registrar_mensualidad(mensualidades, tarifas):
@@ -56,23 +94,26 @@ def registrar_mensualidad(mensualidades, tarifas):
         num = 1
     else:
         num = mensualidades[-1][0] + 1
-    
+
     mensualidad = []
-    
+
     placa = input("Ingrese el número de la placa (auto:3 letras seguidas de 3 números): >")
+
     ingreso = int(input("Ingrese la fecha de entrada (ddmmyyyy): >"))
+
     vigencia = fecha_vigencia(ingreso)
     cliente = input("Ingrese el nombre del cliente: >")
+
     total = tarifas[3]
-    
+
     mensualidad.append(num)
     mensualidad.append(placa)
     mensualidad.append(ingreso)
     mensualidad.append(vigencia)
     mensualidad.append(cliente)
     mensualidad.append(total)
-    
-    return mensualidad 
+
+    return mensualidad
 
 
 
@@ -164,10 +205,14 @@ def tarifas(lista):
         if opc == 3:
             lista = modificar_tarifas(lista)
 
+    return lista
+
 def menu():
     opc = 0
     lista_tarifas = [0,0,0,0]
     mensualidades = []
+    vehiculos = []
+    consecutivo_ciclas = 1
     while opc != 10:
         print("""Menú Principal
 1. Tarifas
@@ -187,7 +232,9 @@ def menu():
         if opc == 2:
             print("----------------------------------------------------------------------")
             mensualidades.append(registrar_mensualidad(mensualidades,lista_tarifas))
-            print(mensualidades)
+        if opc == 3:
+            vehiculos.append(ingresar_vehiculo(consecutivo))
+            consecutivo = consecutivo + 1
 
 
 menu()
