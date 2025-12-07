@@ -1,35 +1,230 @@
 
-def ingresar_vehiculo(consecutivo):
-    vehiculo = []
 
+def mostrar_registros(facturas):
+    opc = 0
+    tipo = 0
+    while opc != 4:
+        print("""1. Mostrar todos los automóviles .
+2. Mostrar todas las motocicletas.
+3. Mostrar todas las bicicletas
+4. Regresar al menú principal.""")
+        opc = int(input("Ingrese una opcion: >"))
+        print("----------------------------------------------------------------------")
+        tipo = 0
+        if opc == 1:
+            tipo = "a"
+
+        else:
+            if opc == 2:
+                tipo = "m"
+
+            else:
+                if opc == 3:
+                    tipo = "b"
+
+        if tipo != 0:
+            print("Tipo de busqueda:", tipo)
+            print("FACTURA  PLACA        FECHA         INGRESO    SALIDA    MINUTOS  TOTAL    OBSERVACIÓN")
+            for i in range(0, len(facturas)):
+                if facturas[i][2] == tipo:
+                    print()
+                    for j in range(0, len(facturas[i])):
+                        if j != 2:
+                            if j != 5:
+                                print(facturas[i][j], end="       ")
+
+        print("----------------------------------------------------------------------")
+    print("----------------------------------------------------------------------")
+
+
+
+def buscar_vehiculo(facturas):
+    opc = 0
+    placa = False
+
+    while opc != 4:
+        print("""1. Buscar motos
+2. Buscar automóviles
+3. Buscar bicicletas
+4. Regresar al menú principal""")
+        opc = int(input("Digite su opcion: >"))
+        if opc == 1:
+            placa = input("Ingrese la placa de la moto: (tres letras seguida de dos números, seguida de una letra) >")
+
+        if opc == 2:
+            placa = input("Ingrese la placa del automovil: (3 letras seguidas de 3 números) >")
+        if opc == 3:
+            placa = input("Ingrese el consecutivo de la bicicleta: >")
+
+        if placa!= False:
+            encontrada = False
+            for i in range(0,len(facturas)):
+                if facturas[i][1] == placa:
+                    print("Factura No: ", facturas[i][0])
+                    print("Num Placa:: ", facturas[i][1])
+                    print("Vehículo tipo: ", facturas[i][2])
+                    print("Fecha de ingreso: ", facturas[i][3])
+                    print("Hora de ingreso: ", facturas[i][4])
+
+                    if facturas[i][5] == 0:
+                        print("Hora de salida: ", "")
+                        print("Nombre: ", facturas[i][6])
+                        print("Numero minutos: ", "")
+                        print("Total: ", "")
+
+                    else:
+                        print("Hora de salida: ", facturas[i][5])
+                        print("Nombre: ", facturas[i][6])
+                        print("Numero minutos: ", facturas[i][7])
+                        print("Total: ", facturas[i][8])
+
+                    encontrada = True
+                    print("----------------------------------------------------------------------")
+            if encontrada == False:
+                print("Vehículo no encontrado. ")
+                print("----------------------------------------------------------------------")
+
+
+
+def buscar_placa(placa, vehiculos):
     bandera = False
+    for i in range(0, len(vehiculos)):
+        if placa == vehiculos[i][0]:
+            bandera = True
+    return bandera
+
+
+def buscar_mensualidad(placa, mensualidades, fecha):
+    mensualidad = False
+    vigencia = 0
+    for i in range(0, len(mensualidades)):
+        if placa == mensualidades[i][1]:
+            mensualidad = True
+            vigencia = mensualidades[i][3]
+
+    if mensualidad == False:
+        return False
+
+    dia_vigencia = vigencia // 1000000
+    mes_vigencia = (vigencia // 10000) % 100
+    año_vigencia = vigencia % 10000
+
+    dia_fecha = fecha // 1000000
+    mes_fecha = (fecha // 10000) % 100
+    año_fecha = fecha % 10000
+
+    if año_fecha > año_vigencia:
+        mensualidad = False
+    else:
+        if año_fecha == año_vigencia:
+            if mes_fecha > mes_vigencia:
+                mensualidad = False
+            else:
+                if mes_fecha == mes_vigencia:
+                    if dia_fecha > dia_vigencia:
+                        mensualidad = False
+    return mensualidad
+
+
+def ingresar_vehiculo(consecutivo_cicla, consecutivo_vehiculos, mensualidades, tarifas, consecutivo_facturas, vehiculos):
+    vehiculo = []
+    factura = []
+    bandera = False
+
     tipo = input("Digite su tipo de vehículo (a : automóvil, m: moto, b: bicicleta ): >")
-    if tipo != a:
-        if tipo != m:
-            if tipo != b:
+
+    if tipo == "a":
+        cobro = tarifas[0]
+    else:
+        if tipo == "m":
+            cobro = tarifas[1]
+        else:
+            if tipo == "b":
+                cobro = tarifas[2]
+            else:
                 bandera = True
+                cobro = 0
 
-    placa = consecutivo
+    placa = consecutivo_cicla
 
-    if tipo == a:
-        placa = input("Digite número de la placa (auto:3 letras seguidas de 3 números, moto: tres letras: >")
+    if tipo == "a":
+        placa = input("Digite número de la placa (auto:3 letras seguidas de 3 números): >")
+    elif tipo == "m":
+        placa = input("Digite número de la placa (moto: tres letras seguida de dos números, seguida de una letra): >")
 
-    elif tipo == m:
-        placa = input("Digite número de la placa (auto:3 letras seguidas de 3 números, moto: tres letras seguida de dos números, seguida de una letra): >")
+    esta_registrado = buscar_placa(placa, vehiculos)
 
-    hora = int(input("Hora (el formato de 24 horas: hhmm ): >"))
-    fecha = int(input("Fecha (ddmmyyyy): >"))
-    nombre = input("Nombre del cliente: >")
+    if esta_registrado:
+        print("La placa ya está registrada. ")
+        return False
+    else:
+        horas = int(input("Hora (el formato de 24 horas: hhmm ): >"))
+
+        hora = horas // 100
+        minutos = horas % 100
+
+        if hora > 23:
+            bandera = True
+        if minutos > 59:
+            bandera = True
+
+        fecha = int(input("Fecha (ddmmyyyy): >"))
+
+        dia = fecha // 1000000
+        if dia <= 0:
+            bandera = True
+        if dia > 31:
+            bandera = True
+
+        mes = (fecha // 10000) % 100
+        if mes <= 0:
+            bandera = True
+        if mes > 12:
+            bandera = True
+
+        año = fecha % 10000
+
+        mensualidad = buscar_mensualidad(placa, mensualidades, fecha)
+
+        if mensualidad:
+            cobro = 0
+
+        if bandera == False:
+            nombre = input("Nombre del cliente: >")
+
+            vehiculo.append(placa)
+            vehiculo.append(tipo)
+            vehiculo.append(horas)
+            vehiculo.append(fecha)
+            vehiculo.append(nombre)
+
+            factura.append(consecutivo_facturas)
+            factura.append(placa)
+            factura.append(tipo)
+            factura.append(fecha)
+            factura.append(horas)
+            factura.append(0)
+            factura.append(nombre)
+            factura.append(0)
+            factura.append(cobro)
+            retorno = [vehiculo, factura]
+            print("¡Vehiculo ingresado con exito! ")
+            print("----------------------------------------------------------------------")
+
+        else:
+            print("Ingreso no valido. ")
+            retorno = False
+
+    return retorno
+    print("----------------------------------------------------------------------")
 
 
-
-def dias_en_mes(mes,bisiesto):
+def dias_en_mes(mes, bisiesto):
     if mes == 2:
         if bisiesto == True:
             dias = 29
         else:
             dias = 28
-
     else:
         if mes == 4:
             dias = 30
@@ -41,23 +236,26 @@ def dias_en_mes(mes,bisiesto):
             dias = 30
         else:
             dias = 31
-
     return dias
 
-def fecha_vigencia(ingreso):
-    bandera = False
 
+def fecha_vigencia(ingreso, bisiesto):
     dia = ingreso // 1000000
-    if dia > 31:
-        bandera = True
-
     mes = (ingreso // 10000) % 100
-    if mes > 12:
-        bandera = True
-
     año = ingreso % 10000
 
-    if bandera == False:
+    dia = dia + 30
+
+    cantidad_dias = dias_en_mes(mes, bisiesto)
+
+    while dia > cantidad_dias:
+        dia = dia - cantidad_dias
+        mes = mes + 1
+
+        if mes > 12:
+            mes = 1
+            año = año + 1
+
         if año % 4 == 0:
             if año % 100 != 0:
                 bisiesto = True
@@ -69,52 +267,72 @@ def fecha_vigencia(ingreso):
         else:
             bisiesto = False
 
-        cantidad_dias = dias_en_mes(mes,bisiesto)
+        cantidad_dias = dias_en_mes(mes, bisiesto)
 
-        dia = dia + 30
-
-        if dia <= cantidad_dias:
-            vigencia = (dia * 1000000) + (mes * 10000) + año
-        else:
-            dia = dia - cantidad_dias
-            mes = mes + 1
-            if mes > 12:
-                año = año + 1
-                mes = 1
-            vigencia = (dia * 1000000) + (mes * 10000) + año
-
-        return vigencia
-
-    else:
-        print("Fecha ingresada incorrecta")
+    vigencia = (dia * 1000000) + (mes * 10000) + año
+    return vigencia
 
 
 def registrar_mensualidad(mensualidades, tarifas):
-    if len(mensualidades) < 1:
-        num = 1
-    else:
-        num = mensualidades[-1][0] + 1
+    bandera = False
+    while bandera == False:
+        bandera = True
 
-    mensualidad = []
+        if len(mensualidades) < 1:
+            num = 1
+        else:
+            num = mensualidades[-1][0] + 1
 
-    placa = input("Ingrese el número de la placa (auto:3 letras seguidas de 3 números): >")
+        mensualidad = []
 
-    ingreso = int(input("Ingrese la fecha de entrada (ddmmyyyy): >"))
+        placa = input("Ingrese el número de la placa (auto:3 letras seguidas de 3 números): >")
 
-    vigencia = fecha_vigencia(ingreso)
-    cliente = input("Ingrese el nombre del cliente: >")
+        ingreso = int(input("Ingrese la fecha de entrada (ddmmyyyy): >"))
+        dia = ingreso // 1000000
+        mes = (ingreso // 10000) % 100
+        año = ingreso % 10000
 
-    total = tarifas[3]
+        if mes > 12:
+            bandera = False
+        if mes <= 0:
+            bandera = False
 
-    mensualidad.append(num)
-    mensualidad.append(placa)
-    mensualidad.append(ingreso)
-    mensualidad.append(vigencia)
-    mensualidad.append(cliente)
-    mensualidad.append(total)
+        if año % 4 == 0:
+            if año % 100 != 0:
+                bisiesto = True
+            else:
+                if año % 400 == 0:
+                    bisiesto = True
+                else:
+                    bisiesto = False
+        else:
+            bisiesto = False
+
+        if año <= 0:
+            bandera = False
+
+        dias_supuestos = dias_en_mes(mes, bisiesto)
+        if dia > dias_supuestos:
+            bandera = False
+        if dia <= 0:
+            bandera = False
+
+        if bandera == True:
+            vigencia = fecha_vigencia(ingreso, bisiesto)
+            cliente = input("Ingrese el nombre del cliente: >")
+            total = tarifas[3]
+
+            mensualidad.append(num)
+            mensualidad.append(placa)
+            mensualidad.append(ingreso)
+            mensualidad.append(vigencia)
+            mensualidad.append(cliente)
+            mensualidad.append(total)
+
+        else:
+            print("Fecha ingresada no valida. ")
 
     return mensualidad
-
 
 
 def modificar_tarifas(lista):
@@ -130,22 +348,19 @@ def modificar_tarifas(lista):
 
         if opc == 1:
             tarifa = int(input("Ingrese la tarifa por minuto para Automoviles. >"))
-            print("----------------------------------------------------------------------")
             lista[0] = tarifa
         if opc == 2:
             tarifa = int(input("Ingrese la tarifa por minuto para Motocicletas. >"))
-            print("----------------------------------------------------------------------")
             lista[1] = tarifa
         if opc == 3:
             tarifa = int(input("Ingrese la tarifa por minuto para Bicicletas. >"))
-            print("----------------------------------------------------------------------")
             lista[2] = tarifa
         if opc == 4:
             tarifa = int(input("Ingrese la tarifa mensual para Automoviles. >"))
-            print("----------------------------------------------------------------------")
             lista[3] = tarifa
 
     return lista
+
 
 def mostrar_tarifas(lista):
     print("----------------------------------------------------------------------")
@@ -153,7 +368,6 @@ def mostrar_tarifas(lista):
     print("2. Tarifa de Motocicleta", lista[1])
     print("3. Tarifa de Bicicleta", lista[2])
     print("4. Tarifa de Mensualidad para Autos", lista[3])
-
 
 
 def ingresar_tarifas(lista):
@@ -167,24 +381,13 @@ def ingresar_tarifas(lista):
 5. Regresar al sub Menú Tarifas""")
         opc = int(input("Ingrese una opcion: >"))
         if opc == 1:
-            tarifa = int(input("Ingrese la tarifa por minuto para Automoviles. "))
-            print("----------------------------------------------------------------------")
-            lista[0] = tarifa
-
+            lista[0] = int(input("Ingrese la tarifa por minuto para Automoviles. "))
         if opc == 2:
-            tarifa = int(input("Ingrese la tarifa por minuto para Motocicletas. "))
-            print("----------------------------------------------------------------------")
-            lista[1] = tarifa
-
+            lista[1] = int(input("Ingrese la tarifa por minuto para Motocicletas. "))
         if opc == 3:
-            tarifa = int(input("Ingrese la tarifa por minuto para Bicicletas. "))
-            print("----------------------------------------------------------------------")
-            lista[2] = tarifa
-
+            lista[2] = int(input("Ingrese la tarifa por minuto para Bicicletas. "))
         if opc == 4:
-            tarifa = int(input("Ingrese la tarifa mensual para Automoviles. "))
-            print("----------------------------------------------------------------------")
-            lista[3] = tarifa
+            lista[3] = int(input("Ingrese la tarifa mensual para Automoviles. "))
 
     return lista
 
@@ -207,12 +410,18 @@ def tarifas(lista):
 
     return lista
 
+
 def menu():
     opc = 0
-    lista_tarifas = [0,0,0,0]
+    lista_tarifas = [0, 0, 0, 0]
     mensualidades = []
     vehiculos = []
-    consecutivo_ciclas = 1
+    facturas = []
+
+    consecutivo_ciclas = 111111
+    consecutivo_vehiculos = 1
+    consecutivo_facturas = 1
+
     while opc != 10:
         print("""Menú Principal
 1. Tarifas
@@ -226,15 +435,28 @@ def menu():
 9. Cuadre de Caja
 10. Salir""")
         opc = int(input("Ingrese una opcion: >"))
+
         if opc == 1:
-            print("----------------------------------------------------------------------")
             lista_tarifas = tarifas(lista_tarifas)
+
         if opc == 2:
-            print("----------------------------------------------------------------------")
-            mensualidades.append(registrar_mensualidad(mensualidades,lista_tarifas))
+            mensualidades.append(registrar_mensualidad(mensualidades, lista_tarifas))
+
         if opc == 3:
-            vehiculos.append(ingresar_vehiculo(consecutivo))
-            consecutivo = consecutivo + 1
+            retorno = ingresar_vehiculo(consecutivo_ciclas, consecutivo_vehiculos, mensualidades, lista_tarifas, consecutivo_facturas, vehiculos)
+            if retorno:
+                vehiculos.append(retorno[0])
+                facturas.append(retorno[1])
+                consecutivo_ciclas = consecutivo_ciclas + 1
+                consecutivo_vehiculos = consecutivo_vehiculos + 1
+                consecutivo_facturas = consecutivo_facturas + 1
+
+        if opc == 4:
+            buscar_vehiculo(facturas)
+
+        if opc == 5:
+            mostrar_registros(facturas)
+
 
 
 menu()
