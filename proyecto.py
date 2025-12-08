@@ -12,49 +12,50 @@ def mostrar_registros(facturas,mensualidades):
         opc = int(input("Ingrese una opcion: >"))
         print("")
         print("----------------------------------------------------------------------")
-        tipo = 0
-        if opc == 1:
-            tipo = "a"
-            nombre_vehiculo = "Automoviles"
+        if opc != 4:
+            tipo = 0
+            if opc == 1:
+                tipo = "a"
+                nombre_vehiculo = "Automoviles"
 
-        if opc == 2:
-            tipo = "m"
-            nombre_vehiculo = "Motocicletas"
+            if opc == 2:
+                tipo = "m"
+                nombre_vehiculo = "Motocicletas"
 
-        if opc == 3:
-            tipo = "b"
-            nombre_vehiculo = "Bicicletas"
+            if opc == 3:
+                tipo = "b"
+                nombre_vehiculo = "Bicicletas"
 
-        if tipo != 0:
-            print("Tipo de busqueda:", nombre_vehiculo)
-            if tipo == "a":
-                print("FACTURA  PLACA        FECHA         INGRESO    SALIDA    MINUTOS  TOTAL    OBSERVACIÓN")
+            if tipo != 0:
+                print("Tipo de busqueda:", nombre_vehiculo)
+                if tipo == "a":
+                    print("FACTURA  PLACA        FECHA         INGRESO    SALIDA    MINUTOS  TOTAL    OBSERVACIÓN")
+                else:
+                    print("FACTURA  PLACA        FECHA         INGRESO    SALIDA    MINUTOS  TOTAL      ")
+
+
+                for i in range(0, len(facturas)):
+                    if facturas[i][2] == tipo:
+                        mensualidad = buscar_mensualidad(facturas[i][1],mensualidades,facturas[i][3])
+                        print()
+
+                        for j in range(0, len(facturas[i])):
+                            if j != 2:
+                                if j != 5:
+                                    if j != 6:
+                                        if facturas[i][j] != 0:
+                                            print(facturas[i][j], end="       ")
+                                        else:
+                                            print(" ", end="       ")
+
+                        if tipo == "a":
+                            if mensualidad:
+                                print("      ","MENSUALIDAD VIGENTE.")
             else:
-                print("FACTURA  PLACA        FECHA         INGRESO    SALIDA    MINUTOS  TOTAL      ")
+                print("Opcion no valida. ")
 
-
-            for i in range(0, len(facturas)):
-                if facturas[i][2] == tipo:
-                    mensualidad = buscar_mensualidad(facturas[i][1],mensualidades,facturas[i][3])
-                    print()
-
-                    for j in range(0, len(facturas[i])):
-                        if j != 2:
-                            if j != 5:
-                                if j != 6:
-                                    if facturas[i][j] != 0:
-                                        print(facturas[i][j], end="       ")
-                                    else:
-                                        print(" ", end="       ")
-
-                    if tipo == "a":
-                        if mensualidad:
-                           print("MENSUALIDAD VIGENTE.")
-        else:
-            print("Opcion no valida. ")
-
+        print()
         print("----------------------------------------------------------------------")
-    print("----------------------------------------------------------------------")
 
 
 
@@ -70,49 +71,56 @@ def buscar_vehiculo(facturas):
         print("")
         opc = int(input("Digite su opcion: >"))
         print("")
-        if opc == 1:
-            placa = input("Ingrese la placa de la moto: (tres letras seguida de dos números, seguida de una letra) >")
+        if opc != 4:
+            if opc == 1:
+                placa = input("Ingrese la placa de la moto: (tres letras seguida de dos números, seguida de una letra) >")
+                nombre_vehiculo = "Moto"
+            if opc == 2:
+                placa = input("Ingrese la placa del automovil: (3 letras seguidas de 3 números) >")
+                nombre_vehiculo = "Automóvil"
+            if opc == 3:
+                placa = int(input("Ingrese el consecutivo de la bicicleta: >"))
+                nombre_vehiculo = "Bicicleta"
+            print("----------------------------------------------------------------------")
 
-        if opc == 2:
-            placa = input("Ingrese la placa del automovil: (3 letras seguidas de 3 números) >")
-        if opc == 3:
-            placa = input("Ingrese el consecutivo de la bicicleta: >")
+            if placa!= False:
+                encontrada = False
+                for i in range(0,len(facturas)):
+                    if facturas[i][1] == placa:
+                        print("Factura No: ", facturas[i][0])
+                        print("Num Placa:: ", facturas[i][1])
+                        print("Vehículo tipo: ", nombre_vehiculo)
+                        print("Fecha de ingreso: ", facturas[i][3])
+                        print("Hora de ingreso: ", facturas[i][4])
 
-        if placa!= False:
-            encontrada = False
-            for i in range(0,len(facturas)):
-                if facturas[i][1] == placa:
-                    print("Factura No: ", facturas[i][0])
-                    print("Num Placa:: ", facturas[i][1])
-                    print("Vehículo tipo: ", facturas[i][2])
-                    print("Fecha de ingreso: ", facturas[i][3])
-                    print("Hora de ingreso: ", facturas[i][4])
+                        if facturas[i][5] == 0:
+                            print("Hora de salida: ", "")
+                            print("Nombre: ", facturas[i][6])
+                            print("Numero minutos: ", "")
+                            print("Total: ", "")
 
-                    if facturas[i][5] == 0:
-                        print("Hora de salida: ", "")
-                        print("Nombre: ", facturas[i][6])
-                        print("Numero minutos: ", "")
-                        print("Total: ", "")
+                        else:
+                            print("Hora de salida: ", facturas[i][5])
+                            print("Nombre: ", facturas[i][6])
+                            print("Numero minutos: ", facturas[i][7])
+                            print("Total: ", facturas[i][8])
 
-                    else:
-                        print("Hora de salida: ", facturas[i][5])
-                        print("Nombre: ", facturas[i][6])
-                        print("Numero minutos: ", facturas[i][7])
-                        print("Total: ", facturas[i][8])
+                        encontrada = True
+                        print("----------------------------------------------------------------------")
 
-                    encontrada = True
+            if placa != False:
+                if encontrada == False:
+                    print("Vehículo no encontrado. ")
                     print("----------------------------------------------------------------------")
-            if encontrada == False:
-                print("Vehículo no encontrado. ")
-                print("----------------------------------------------------------------------")
 
 
 
-def buscar_placa(placa, vehiculos):
+def buscar_placa(placa, facturas):
     bandera = False
-    for i in range(0, len(vehiculos)):
-        if placa == vehiculos[i][0]:
-            bandera = True
+    for i in range(0, len(facturas)):
+        if placa == facturas[i][1]:
+            if facturas[i][5] == 0:
+                bandera = True
     return bandera
 
 
@@ -148,7 +156,7 @@ def buscar_mensualidad(placa, mensualidades, fecha):
     return mensualidad
 
 
-def ingresar_vehiculo(consecutivo_cicla, consecutivo_vehiculos, mensualidades, tarifas, consecutivo_facturas, vehiculos):
+def ingresar_vehiculo(consecutivo_cicla, consecutivo_vehiculos, mensualidades, tarifas, consecutivo_facturas, vehiculos,facturas):
     vehiculo = []
     factura = []
     bandera = False
@@ -175,7 +183,8 @@ def ingresar_vehiculo(consecutivo_cicla, consecutivo_vehiculos, mensualidades, t
     elif tipo == "m":
         placa = input("Digite número de la placa (moto: tres letras seguida de dos números, seguida de una letra): >")
 
-    esta_registrado = buscar_placa(placa, vehiculos)
+
+    esta_registrado = buscar_placa(placa, facturas)
 
     if esta_registrado:
         print("")
@@ -236,6 +245,8 @@ def ingresar_vehiculo(consecutivo_cicla, consecutivo_vehiculos, mensualidades, t
             retorno = [vehiculo, factura]
             print("")
             print("¡Vehiculo ingresado con exito! ")
+            if placa == consecutivo_cicla:
+                print("El consecutivo de la bicicleta es: ", consecutivo_cicla)
             print("----------------------------------------------------------------------")
 
         else:
@@ -672,7 +683,7 @@ def menu():
             mensualidades.append(registrar_mensualidad(mensualidades, lista_tarifas))
 
         if opc == 3:
-            retorno = ingresar_vehiculo(consecutivo_ciclas, consecutivo_vehiculos, mensualidades, lista_tarifas, consecutivo_facturas, vehiculos)
+            retorno = ingresar_vehiculo(consecutivo_ciclas, consecutivo_vehiculos, mensualidades, lista_tarifas, consecutivo_facturas, vehiculos,facturas)
             if retorno:
                 vehiculos.append(retorno[0])
                 facturas.append(retorno[1])
