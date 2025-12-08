@@ -461,8 +461,7 @@ def mostrar_mensualidades(mensualidades):
     print("MENSUALIDADES")
     print("NUM   PLACA        CLIENTE              DESDE       HASTA       TOTAL")
 
-    i = 0
-    while i < len(mensualidades):
+    for i in range(0,len(mensualidades)):
 
         num = str(mensualidades[i][0])
         placa = str(mensualidades[i][1])
@@ -480,7 +479,6 @@ def mostrar_mensualidades(mensualidades):
             total
         )
 
-        i = i + 1
 
     print("----------------------------------------------------------------------")
 
