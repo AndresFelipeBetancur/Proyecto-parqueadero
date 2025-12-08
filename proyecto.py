@@ -8,7 +8,9 @@ def mostrar_registros(facturas):
 2. Mostrar todas las motocicletas.
 3. Mostrar todas las bicicletas
 4. Regresar al menú principal.""")
+        print("")
         opc = int(input("Ingrese una opcion: >"))
+        print("")
         print("----------------------------------------------------------------------")
         tipo = 0
         if opc == 1:
@@ -47,7 +49,9 @@ def buscar_vehiculo(facturas):
 2. Buscar automóviles
 3. Buscar bicicletas
 4. Regresar al menú principal""")
+        print("")
         opc = int(input("Digite su opcion: >"))
+        print("")
         if opc == 1:
             placa = input("Ingrese la placa de la moto: (tres letras seguida de dos números, seguida de una letra) >")
 
@@ -132,6 +136,7 @@ def ingresar_vehiculo(consecutivo_cicla, consecutivo_vehiculos, mensualidades, t
     bandera = False
 
     tipo = input("Digite su tipo de vehículo (a : automóvil, m: moto, b: bicicleta ): >")
+    print("")
 
     if tipo == "a":
         cobro = tarifas[0]
@@ -155,7 +160,9 @@ def ingresar_vehiculo(consecutivo_cicla, consecutivo_vehiculos, mensualidades, t
     esta_registrado = buscar_placa(placa, vehiculos)
 
     if esta_registrado:
+        print("")
         print("La placa ya está registrada. ")
+        print("")
         return False
     else:
         horas = int(input("Hora (el formato de 24 horas: hhmm ): >"))
@@ -191,6 +198,7 @@ def ingresar_vehiculo(consecutivo_cicla, consecutivo_vehiculos, mensualidades, t
 
         if bandera == False:
             nombre = input("Nombre del cliente: >")
+            print("")
 
             vehiculo.append(placa)
             vehiculo.append(tipo)
@@ -208,6 +216,7 @@ def ingresar_vehiculo(consecutivo_cicla, consecutivo_vehiculos, mensualidades, t
             factura.append(0)
             factura.append(cobro)
             retorno = [vehiculo, factura]
+            print("")
             print("¡Vehiculo ingresado con exito! ")
             print("----------------------------------------------------------------------")
 
@@ -284,10 +293,11 @@ def registrar_mensualidad(mensualidades, tarifas):
             num = mensualidades[-1][0] + 1
 
         mensualidad = []
-
+        print("")
         placa = input("Ingrese el número de la placa (auto:3 letras seguidas de 3 números): >")
-
+        print("")
         ingreso = int(input("Ingrese la fecha de entrada (ddmmyyyy): >"))
+        print("")
         dia = ingreso // 1000000
         mes = (ingreso // 10000) % 100
         año = ingreso % 10000
@@ -319,7 +329,9 @@ def registrar_mensualidad(mensualidades, tarifas):
 
         if bandera == True:
             vigencia = fecha_vigencia(ingreso, bisiesto)
+            print("")
             cliente = input("Ingrese el nombre del cliente: >")
+            print("")
             total = tarifas[3]
 
             mensualidad.append(num)
@@ -344,7 +356,9 @@ def modificar_tarifas(lista):
 3. Modificar Tarifa Bicicleta
 4. Modificar Mensualidad para Autos
 5. Regresar al sub Menú Tarifas""")
+        print("")
         opc = int(input("Ingrese una opcion: >"))
+        print("")
 
         if opc == 1:
             tarifa = int(input("Ingrese la tarifa por minuto para Automoviles. >"))
@@ -379,7 +393,9 @@ def ingresar_tarifas(lista):
 3. Ingresar Tarifa de Bicicleta
 4. Ingresar Tarifa de Mensualidad para Autos
 5. Regresar al sub Menú Tarifas""")
+        print("")
         opc = int(input("Ingrese una opcion: >"))
+        print("")
         if opc == 1:
             lista[0] = int(input("Ingrese la tarifa por minuto para Automoviles. "))
         if opc == 2:
@@ -400,7 +416,9 @@ def tarifas(lista):
 2. Mostrar Tarifas
 3. Modificar Tarifas
 4. Regresar al Menú principal""")
+        print("")
         opc = int(input("Ingrese una opcion: >"))
+        print("")
         if opc == 1:
             lista = ingresar_tarifas(lista)
         if opc == 2:
@@ -409,6 +427,197 @@ def tarifas(lista):
             lista = modificar_tarifas(lista)
 
     return lista
+
+def mostrar_mensualidades(mensualidades):
+    print("----------------------------------------------------------------------")
+    print("MENSUALIDADES")
+    print("MENSUALIDAD NO. PLACA  CLIENTE       DESDE     HASTA      TOTAL")
+    i = 0
+    while i < len(mensualidades):
+        m = mensualidades[i]
+        print(str(m[0]) + " " + m[1] + " " + m[4] + " " + str(m[2]) + " " + str(m[3]) + " " + str(m[5]))
+        i = i + 1
+    print("----------------------------------------------------------------------")
+
+def salida_vehiculo(facturas, lista_tarifas):
+    bandera = False
+
+    while bandera == False:
+        bandera = True
+        print("1. Salida Moto.")
+        print("2. Salida Automóvil.")
+        print("3. Salida Bicicleta.")
+        print("4. Regresar al menú principal.")
+        opc = int(input("Ingrese una opcion: >"))
+        if opc == 4:
+            return
+
+        if opc == 1:
+            tipo = "m"
+        else:
+            if opc == 2:
+                tipo = "a"
+            else:
+                if opc == 3:
+                    tipo = "b"
+                else:
+                    print("Opción inválida.")
+                    bandera = False
+
+        if bandera == True:
+            encontrado = False
+            pos = -1
+
+            if tipo == "b":
+                consecutivo = input("Ingrese el consecutivo de la bicicleta: >")
+                i = 0
+                while i < len(facturas):
+                    if facturas[i][2] == "b":
+                        if str(facturas[i][1]) == str(consecutivo):
+                            if facturas[i][5] == 0:
+                                encontrado = True
+                                pos = i
+                                i = len(facturas)
+                                i = i + 0
+                            else:
+                                i = i + 1
+                        else:
+                            i = i + 1
+                    else:
+                        i = i + 1
+            else:
+                placa = input("Ingrese la placa: >")
+                i = 0
+                while i < len(facturas):
+                    if facturas[i][2] == tipo:
+                        if facturas[i][1] == placa:
+                            if facturas[i][5] == 0:
+                                encontrado = True
+                                pos = i
+                                i = len(facturas)
+                                i = i + 0
+                            else:
+                                i = i + 1
+                        else:
+                            i = i + 1
+                    else:
+                        i = i + 1
+
+            if encontrado == False:
+                print("Vehículo no registrado o ya tiene salida.")
+                print("----------------------------------------------------------------------")
+                bandera = False
+
+        if bandera == True:
+            hora_s = int(input("Hora de salida (hhmm): >"))
+            hs = hora_s // 100
+            ms = hora_s % 100
+
+            if hs > 23:
+                print("Hora inválida.")
+                print("----------------------------------------------------------------------")
+                bandera = False
+
+            if ms > 59:
+                print("Hora inválida.")
+                print("----------------------------------------------------------------------")
+                bandera = False
+
+        if bandera == True:
+            hora_ing = facturas[pos][4]
+            hi = hora_ing // 100
+            mi = hora_ing % 100
+
+            minutos_totales = (hs * 60 + ms) - (hi * 60 + mi)
+
+            if minutos_totales < 0:
+                print("La hora de salida no puede ser inferior a la de ingreso.")
+                print("----------------------------------------------------------------------")
+                bandera = False
+
+        if bandera == True:
+            facturas[pos][5] = hora_s
+            facturas[pos][7] = minutos_totales
+
+            if facturas[pos][2] == "a":
+                if facturas[pos][8] == 0:
+                    facturas[pos][8] = 0
+                else:
+                    facturas[pos][8] = minutos_totales * lista_tarifas[0]
+
+            if facturas[pos][2] == "m":
+                facturas[pos][8] = minutos_totales * lista_tarifas[1]
+
+            if facturas[pos][2] == "b":
+                facturas[pos][8] = minutos_totales * lista_tarifas[2]
+
+            print("Factura No: ", facturas[pos][0])
+            print("Num Placa:: ", facturas[pos][1])
+            print("Vehículo tipo: ", facturas[pos][2])
+            print("Fecha de ingreso: ", facturas[pos][3])
+            print("Hora de ingreso: ", facturas[pos][4])
+            print("Hora de salida: ", facturas[pos][5])
+            print("Nombre: ", facturas[pos][6])
+            print("Numero minutos: ", facturas[pos][7])
+            print("Total: ", facturas[pos][8])
+            print("----------------------------------------------------------------------")
+def buscar_factura(facturas):
+    num = input("Digite el número de la Factura: >")
+    if num.isdigit() == False:
+        print("Número de factura inválido.")
+        print("----------------------------------------------------------------------")
+        return
+    num = int(num)
+    encontrada = False
+    i = 0
+    while i < len(facturas):
+        if facturas[i][0] == num:
+            print("Factura No: ", facturas[i][0])
+            print("Num Placa:: ", facturas[i][1])
+            print("Vehículo tipo: ", facturas[i][2])
+            print("Fecha de ingreso: ", facturas[i][3])
+            print("Hora de ingreso: ", facturas[i][4])
+            if facturas[i][5] == 0:
+                print("Hora de salida: ", "")
+                print("Nombre: ", facturas[i][6])
+                print("Numero minutos: ", "")
+                print("Total: ", "")
+            else:
+                print("Hora de salida: ", facturas[i][5])
+                print("Nombre: ", facturas[i][6])
+                print("Numero minutos: ", facturas[i][7])
+                print("Total: ", facturas[i][8])
+            encontrada = True
+            i = len(facturas)
+            i = i + 0
+        else:
+            i = i + 1
+    if encontrada == False:
+        print("Factura no encontrada.")
+    print("----------------------------------------------------------------------")
+
+def cuadre_de_caja(facturas, mensualidades):
+    total_facturas = 0
+    total_mensualidades = 0
+
+    i = 0
+    while i < len(facturas):
+        if facturas[i][8] > 0:
+            total_facturas = total_facturas + facturas[i][8]
+        i = i + 1
+
+    j = 0
+    while j < len(mensualidades):
+        total_mensualidades = total_mensualidades + mensualidades[j][5]
+        j = j + 1
+
+    total_general = total_facturas + total_mensualidades
+
+    print("----------------------------------------------------------------------")
+    print("Total por facturas:", total_facturas)
+    print("Total por mensualidades:", total_mensualidades)
+    print("Total general del día:", total_general)
+    print("----------------------------------------------------------------------")
 
 
 def menu():
@@ -434,7 +643,9 @@ def menu():
 8. Buscar Factura
 9. Cuadre de Caja
 10. Salir""")
+        print("")
         opc = int(input("Ingrese una opcion: >"))
+        print("")
 
         if opc == 1:
             lista_tarifas = tarifas(lista_tarifas)
@@ -457,6 +668,16 @@ def menu():
         if opc == 5:
             mostrar_registros(facturas)
 
+        if opc==6:
+            mostrar_mensualidades(mensualidades)
+        
+        if opc==7:
+            salida_vehiculo(facturas, lista_tarifas)
 
+        if opc==8:
+            buscar_factura(facturas)
+
+        if opc==9:
+            cuadre_de_caja(facturas, mensualidades)
 
 menu()
