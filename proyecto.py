@@ -1,6 +1,6 @@
 
 
-def mostrar_registros(facturas):
+def mostrar_registros(facturas,mensualidades):
     opc = 0
     tipo = 0
     while opc != 4:
@@ -15,25 +15,43 @@ def mostrar_registros(facturas):
         tipo = 0
         if opc == 1:
             tipo = "a"
+            nombre_vehiculo = "Automoviles"
 
-        else:
-            if opc == 2:
-                tipo = "m"
+        if opc == 2:
+            tipo = "m"
+            nombre_vehiculo = "Motocicletas"
 
-            else:
-                if opc == 3:
-                    tipo = "b"
+        if opc == 3:
+            tipo = "b"
+            nombre_vehiculo = "Bicicletas"
 
         if tipo != 0:
-            print("Tipo de busqueda:", tipo)
-            print("FACTURA  PLACA        FECHA         INGRESO    SALIDA    MINUTOS  TOTAL    OBSERVACIÓN")
+            print("Tipo de busqueda:", nombre_vehiculo)
+            if tipo == "a":
+                print("FACTURA  PLACA        FECHA         INGRESO    SALIDA    MINUTOS  TOTAL    OBSERVACIÓN")
+            else:
+                print("FACTURA  PLACA        FECHA         INGRESO    SALIDA    MINUTOS  TOTAL      ")
+
+
             for i in range(0, len(facturas)):
                 if facturas[i][2] == tipo:
+                    mensualidad = buscar_mensualidad(facturas[i][1],mensualidades,facturas[i][3])
                     print()
+
                     for j in range(0, len(facturas[i])):
                         if j != 2:
                             if j != 5:
-                                print(facturas[i][j], end="       ")
+                                if j != 6:
+                                    if facturas[i][j] != 0:
+                                        print(facturas[i][j], end="       ")
+                                    else:
+                                        print(" ", end="       ")
+
+                    if tipo == "a":
+                        if mensualidad:
+                           print("MENSUALIDAD VIGENTE.")
+        else:
+            print("Opcion no valida. ")
 
         print("----------------------------------------------------------------------")
     print("----------------------------------------------------------------------")
@@ -666,11 +684,11 @@ def menu():
             buscar_vehiculo(facturas)
 
         if opc == 5:
-            mostrar_registros(facturas)
+            mostrar_registros(facturas,mensualidades )
 
         if opc==6:
             mostrar_mensualidades(mensualidades)
-        
+
         if opc==7:
             salida_vehiculo(facturas, lista_tarifas)
 
