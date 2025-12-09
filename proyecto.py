@@ -260,7 +260,6 @@ def ingresar_vehiculo(consecutivo_cicla, consecutivo_vehiculos, mensualidades, t
         placa = input("Digite número de la placa (auto:3 letras seguidas de 3 números): >")
     
     elif tipo == "m":
-    if tipo == "m":
         placa = input("Digite número de la placa (moto: tres letras seguida de dos números, seguida de una letra): >")
     
     else:
@@ -290,14 +289,6 @@ def ingresar_vehiculo(consecutivo_cicla, consecutivo_vehiculos, mensualidades, t
         print("Verifique el orden de la placa.")
         print("Recuerde tambien que la placa debe estar en mayúsculas. ")
         return False
-    if tipo == "b":
-        YoN=input("La bicicleta tiene codigo?: Y o N: ")
-        if YoN == "Y":
-            placa = input("Digite el codigo de la bicicleta: >")
-        else:
-            print("El codigo de la bicicleta fue generado por el sistema")
-            print("El codigo de la bicicleta es: ",placa)
-
 
     esta_registrado = buscar_placa(placa, facturas)
 
