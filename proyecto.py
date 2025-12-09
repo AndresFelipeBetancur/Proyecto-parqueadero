@@ -466,7 +466,6 @@ def registrar_mensualidad(mensualidades, tarifas):
 
         if bandera == True:
             vigencia = fecha_vigencia(ingreso, bisiesto)
-            print("")
             cliente = input("Ingrese el nombre del cliente: >")
             print("")
             total = tarifas[3]
@@ -568,12 +567,27 @@ def tarifas(lista):
 def mostrar_mensualidades(mensualidades):
     print("----------------------------------------------------------------------")
     print("MENSUALIDADES")
-    print("MENSUALIDAD NO. PLACA  CLIENTE       DESDE     HASTA      TOTAL")
-    i = 0
-    while i < len(mensualidades):
-        m = mensualidades[i]
-        print(str(m[0]) + " " + m[1] + " " + m[4] + " " + str(m[2]) + " " + str(m[3]) + " " + str(m[5]))
-        i = i + 1
+    print("NUM   PLACA        CLIENTE              DESDE       HASTA       TOTAL")
+
+    for i in range(0,len(mensualidades)):
+
+        num = str(mensualidades[i][0])
+        placa = str(mensualidades[i][1])
+        cliente = str(mensualidades[i][4])
+        desde = str(mensualidades[i][2])
+        hasta = str(mensualidades[i][3])
+        total = str(mensualidades[i][5])
+
+        print(
+            num, "   ",
+            placa, "      ",
+            cliente, "     ",
+            desde, "   ",
+            hasta, "   ",
+            total
+        )
+
+
     print("----------------------------------------------------------------------")
 
 def salida_vehiculo(facturas, lista_tarifas):
@@ -698,6 +712,7 @@ def salida_vehiculo(facturas, lista_tarifas):
             print("Numero minutos: ", facturas[pos][7])
             print("Total: ", facturas[pos][8])
             print("----------------------------------------------------------------------")
+    return facturas
 def buscar_factura(facturas):
     num = input("Digite el número de la Factura: >")
     if num.isdigit() == False:
@@ -816,5 +831,8 @@ def menu():
 
         if opc==9:
             cuadre_de_caja(facturas, mensualidades)
+    print("----------------------------------------------------------------------")
+    print("Saliendo del sistema...")
+    print("----------------------------------------------------------------------")
 
 menu()
