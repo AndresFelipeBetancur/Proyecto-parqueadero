@@ -156,6 +156,84 @@ def buscar_mensualidad(placa, mensualidades, fecha):
     return mensualidad
 
 
+
+
+def validar_placa_auto(placa):
+    
+    letras_permitidas = ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"]
+    numeros_permitidos = ["0","1","2","3","4","5","6","7","8","9"]
+    
+    letras = placa[0:3]
+    numeros = placa[3:6]
+
+    contador_letras = 0
+    contador_numeros = 0
+
+    for i in range(0, len(letras)):
+       for j in range(0, len(letras_permitidas)):
+           if letras[i] == letras_permitidas[j]:
+               contador_letras = contador_letras +1 
+    
+    for i in range(0, len(numeros)):
+        for j in range(0, len(numeros_permitidos)):
+            if numeros[i] == numeros_permitidos[j]:
+               contador_numeros = contador_numeros +1 
+
+    if contador_letras == 3:
+        if contador_numeros == 3:
+            return True
+        else:
+            return False
+    else:
+        return False
+
+
+
+
+
+def validar_placa_moto(placa):
+    letras_permitidas = ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"]
+    numeros_permitidos = ["0","1","2","3","4","5","6","7","8","9"]
+    
+    letras = placa[0:3]
+    numeros = placa[3:6]
+
+    contador_letras = 0
+    contador_numeros = 0
+
+    letras = placa[0:3]
+    numeros = placa[3:5]
+    letra_final = placa[5]
+    
+    for i in range(0, len(letras)):
+       for j in range(0, len(letras_permitidas)):
+           if letras[i] == letras_permitidas[j]:
+               contador_letras = contador_letras +1 
+    
+    for i in range(0, len(numeros)):
+        for j in range(0, len(numeros_permitidos)):
+            if numeros[i] == numeros_permitidos[j]:
+               contador_numeros = contador_numeros +1 
+    
+    for i in range(0,len(letras_permitidas)):
+        if letra_final == letras_permitidas[i]:
+            letra_final = True
+            
+    if contador_letras == 3:
+        if contador_numeros == 2:
+            if letra_final == True:
+                return True
+            else:
+                return False
+        else:
+            return False
+    else:
+        return False
+
+
+
+
+
 def ingresar_vehiculo(consecutivo_cicla, consecutivo_vehiculos, mensualidades, tarifas, consecutivo_facturas, vehiculos,facturas):
     vehiculo = []
     factura = []
@@ -180,8 +258,38 @@ def ingresar_vehiculo(consecutivo_cicla, consecutivo_vehiculos, mensualidades, t
 
     if tipo == "a":
         placa = input("Digite número de la placa (auto:3 letras seguidas de 3 números): >")
+    
+    elif tipo == "m":
     if tipo == "m":
         placa = input("Digite número de la placa (moto: tres letras seguida de dos números, seguida de una letra): >")
+    
+    else:
+        if tipo != "b":
+            print("opcion no valida. ")
+            return False
+        
+    if placa != consecutivo_cicla:
+        if len(placa) != 6:
+            bandera = True
+
+
+    
+    if tipo == "a":
+        validez = validar_placa_auto(placa)
+        if validez == False:
+            bandera = True
+            
+    if tipo == "m":
+        validez = validar_placa_moto(placa)
+        if validez == False:
+            bandera = True
+    
+       
+    if bandera == True:
+        print("¡Vehiculo no ingresado!")
+        print("Verifique el orden de la placa.")
+        print("Recuerde tambien que la placa debe estar en mayúsculas. ")
+        return False
     if tipo == "b":
         YoN=input("La bicicleta tiene codigo?: Y o N: ")
         if YoN == "Y":
@@ -223,7 +331,7 @@ def ingresar_vehiculo(consecutivo_cicla, consecutivo_vehiculos, mensualidades, t
         if mes > 12:
             bandera = True
 
-        año = fecha % 10000
+        
 
         mensualidad = buscar_mensualidad(placa, mensualidades, fecha)
 
@@ -257,7 +365,8 @@ def ingresar_vehiculo(consecutivo_cicla, consecutivo_vehiculos, mensualidades, t
             print("----------------------------------------------------------------------")
 
         else:
-            print("Ingreso no valido. ")
+            
+            print("Ingreso no valido (Revise la fecha). ")
             retorno = False
     print("----------------------------------------------------------------------")
     return retorno
