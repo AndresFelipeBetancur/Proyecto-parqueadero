@@ -629,7 +629,7 @@ def mostrar_mensualidades(mensualidades):
 
     print("----------------------------------------------------------------------")
 
-def salida_vehiculo(facturas, lista_tarifas):
+def salida_vehiculo(facturas, lista_tarifas, vehiculos):
     bandera = False
 
     while bandera == False:
@@ -640,6 +640,8 @@ def salida_vehiculo(facturas, lista_tarifas):
         print("4. Regresar al menú principal.")
         opc = int(input("Ingrese una opcion: >"))
 
+        if opc == 4:
+            return facturas
         if opc == 1:
             tipo = "m"
         else:
@@ -651,16 +653,20 @@ def salida_vehiculo(facturas, lista_tarifas):
                 else:
                     print("Opción inválida.")
                     bandera = False
-        if opc == 4:
-            return facturas
 
         if bandera == True:
             encontrado = False
             pos = -1
 
             if tipo == "b":
+                print("Bicicletas registradas:")
+                for i in range(0,len(vehiculos)):
+                    if vehiculos[i][1]=="b":
+                        print([i][2])
+                print("")
                 consecutivo = input("Ingrese el consecutivo de la bicicleta: >")
                 i = 0
+
                 while i < len(facturas):
                     if facturas[i][2] == "b":
                         if str(facturas[i][1]) == str(consecutivo):
