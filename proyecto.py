@@ -597,8 +597,6 @@ def salida_vehiculo(facturas, lista_tarifas):
         print("3. Salida Bicicleta.")
         print("4. Regresar al menú principal.")
         opc = int(input("Ingrese una opcion: >"))
-        if opc == 4:
-            return facturas
 
         if opc == 1:
             tipo = "m"
@@ -611,6 +609,8 @@ def salida_vehiculo(facturas, lista_tarifas):
                 else:
                     print("Opción inválida.")
                     bandera = False
+        if opc == 4:
+            return facturas
 
         if bandera == True:
             encontrado = False
