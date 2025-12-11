@@ -707,8 +707,10 @@ def salida_vehiculo(facturas, lista_tarifas):
                 print("Vehiculos Registrados:")
                 for i in range(0,len(facturas)):
                     if facturas[i][2]=="a":
-                        if facturas[i][2]=="m":
-                            print(facturas[i][1])
+                        print(facturas[i][1])
+
+                    if facturas[i][2]=="m":
+                        print(facturas[i][1])
                 print("")
                 placa = input("Ingrese la placa: >")
                 i = 0
