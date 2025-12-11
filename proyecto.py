@@ -2,7 +2,7 @@
 
 def mostrar_registros(facturas,mensualidades):
     opc = 0
-    tipo = 0
+   
     while opc != 4:
         print("""1. Mostrar todos los automóviles .
 2. Mostrar todas las motocicletas.
@@ -72,6 +72,7 @@ def buscar_vehiculo(facturas):
         opc = int(input("Digite su opcion: >"))
         print("")
         if opc != 4:
+            
             if opc == 1:
                 placa = input("Ingrese la placa de la moto: (tres letras seguida de dos números, seguida de una letra) >")
                 nombre_vehiculo = "Moto"
@@ -79,11 +80,11 @@ def buscar_vehiculo(facturas):
                 placa = input("Ingrese la placa del automovil: (3 letras seguidas de 3 números) >")
                 nombre_vehiculo = "Automóvil"
             if opc == 3:
-                placa = int(input("Ingrese el consecutivo de la bicicleta: >"))
+                placa = input("Ingrese el consecutivo de la bicicleta: >")
                 nombre_vehiculo = "Bicicleta"
             print("----------------------------------------------------------------------")
 
-            if placa!= False:
+            if placa != False:
                 encontrada = False
                 for i in range(0,len(facturas)):
                     if facturas[i][1] == placa:
@@ -254,7 +255,7 @@ def ingresar_vehiculo(consecutivo_cicla, consecutivo_vehiculos, mensualidades, t
                 bandera = True
                 cobro = 0
 
-    placa = consecutivo_cicla
+    placa = str(consecutivo_cicla)
 
     if tipo == "a":
         placa = input("Digite número de la placa (auto:3 letras seguidas de 3 números): >")
@@ -432,6 +433,15 @@ def registrar_mensualidad(mensualidades, tarifas):
         mensualidad = []
         print("")
         placa = input("Ingrese el número de la placa (auto:3 letras seguidas de 3 números): >")
+        if len(placa) != 6:
+            bandera = False
+            
+
+        validez = validar_placa_auto(placa)
+        if validez == False:
+            bandera = False
+            
+
         print("")
         ingreso = int(input("Ingrese la fecha de entrada (ddmmyyyy): >"))
         print("")
@@ -478,7 +488,7 @@ def registrar_mensualidad(mensualidades, tarifas):
             mensualidad.append(total)
 
         else:
-            print("Fecha ingresada no valida. ")
+            print("Fecha o placa ingresada no valida. ")
 
     return mensualidad
 
@@ -497,17 +507,31 @@ def modificar_tarifas(lista):
         print("")
 
         if opc == 1:
-            tarifa = int(input("Ingrese la tarifa por minuto para Automoviles. >"))
-            lista[0] = tarifa
+            tarifa = int(input("Ingrese la tarifa por minuto para Automoviles. "))
+            if tarifa > 0:
+                lista[0] = tarifa
+            else:
+                print("La tarifa debe ser mayor a 0.")
+
         if opc == 2:
-            tarifa = int(input("Ingrese la tarifa por minuto para Motocicletas. >"))
-            lista[1] = tarifa
+            tarifa = int(input("Ingrese la tarifa por minuto para Motocicletas. "))
+            if tarifa > 0:
+                lista[1] = tarifa
+            else:
+                print("La tarifa debe ser mayor a 0.")
+
         if opc == 3:
-            tarifa = int(input("Ingrese la tarifa por minuto para Bicicletas. >"))
-            lista[2] = tarifa
+            tarifa = int(input("Ingrese la tarifa por minuto para Bicicletas. "))
+            if tarifa > 0:
+                lista[2] = tarifa
+            else:
+                print("La tarifa debe ser mayor a 0.")
         if opc == 4:
-            tarifa = int(input("Ingrese la tarifa mensual para Automoviles. >"))
-            lista[3] = tarifa
+            tarifa = int(input("Ingrese la tarifa mensual para Automoviles. "))
+            if tarifa > 0:
+                lista[3] = tarifa
+            else:
+                print("La tarifa debe ser mayor a 0.")
 
     return lista
 
@@ -533,13 +557,31 @@ def ingresar_tarifas(lista):
         opc = int(input("Ingrese una opcion: >"))
         print("")
         if opc == 1:
-            lista[0] = int(input("Ingrese la tarifa por minuto para Automoviles. "))
+            tarifa = int(input("Ingrese la tarifa por minuto para Automoviles. "))
+            if tarifa > 0:
+                lista[0] = tarifa
+            else:
+                print("La tarifa debe ser mayor a 0.")
+
         if opc == 2:
-            lista[1] = int(input("Ingrese la tarifa por minuto para Motocicletas. "))
+            tarifa = int(input("Ingrese la tarifa por minuto para Motocicletas. "))
+            if tarifa > 0:
+                lista[1] = tarifa
+            else:
+                print("La tarifa debe ser mayor a 0.")
+
         if opc == 3:
-            lista[2] = int(input("Ingrese la tarifa por minuto para Bicicletas. "))
+            tarifa = int(input("Ingrese la tarifa por minuto para Bicicletas. "))
+            if tarifa > 0:
+                lista[2] = tarifa
+            else:
+                print("La tarifa debe ser mayor a 0.")
         if opc == 4:
-            lista[3] = int(input("Ingrese la tarifa mensual para Automoviles. "))
+            tarifa = int(input("Ingrese la tarifa mensual para Automoviles. "))
+            if tarifa > 0:
+                lista[3] = tarifa
+            else:
+                print("La tarifa debe ser mayor a 0.")
 
     return lista
 
