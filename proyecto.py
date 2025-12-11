@@ -659,9 +659,9 @@ def salida_vehiculo(facturas, lista_tarifas):
         print("3. Salida Bicicleta.")
         print("4. Regresar al menú principal.")
         opc = int(input("Ingrese una opcion: >"))
+
         if opc == 4:
             return facturas
-
         if opc == 1:
             tipo = "m"
         else:
@@ -679,8 +679,15 @@ def salida_vehiculo(facturas, lista_tarifas):
             pos = -1
 
             if tipo == "b":
+                print("")
+                print("Bicicletas registradas:")
+                for i in range(0,len(facturas)):
+                    if facturas[i][2]=="b":
+                        print(facturas[i][1])
+                print("")
                 consecutivo = input("Ingrese el consecutivo de la bicicleta: >")
                 i = 0
+
                 while i < len(facturas):
                     if facturas[i][2] == "b":
                         if str(facturas[i][1]) == str(consecutivo):
@@ -696,6 +703,13 @@ def salida_vehiculo(facturas, lista_tarifas):
                     else:
                         i = i + 1
             else:
+                print("")
+                print("Vehiculos Registrados:")
+                for i in range(0,len(facturas)):
+                    if facturas[i][2]=="a":
+                        if facturas[i][2]=="m":
+                            print(facturas[i][1])
+                print("")
                 placa = input("Ingrese la placa: >")
                 i = 0
                 while i < len(facturas):
@@ -730,6 +744,10 @@ def salida_vehiculo(facturas, lista_tarifas):
 
             if ms > 59:
                 print("Hora inválida.")
+                print("----------------------------------------------------------------------")
+                bandera = False
+            if hora_s == facturas[pos][4]:
+                print("La hora de salida no debe ser igual al de entrada.")
                 print("----------------------------------------------------------------------")
                 bandera = False
 
