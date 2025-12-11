@@ -41,16 +41,25 @@ def mostrar_registros(facturas,mensualidades):
 
                         for j in range(0, len(facturas[i])):
                             if j != 2:
-                                if j != 5:
-                                    if j != 6:
-                                        if facturas[i][j] != 0:
-                                            print(facturas[i][j], end="       ")
+                                if j != 6:
+                                    if facturas[i][5] != 0:
+                                        print(facturas[i][j], end="       ")
+                                        
+                                    else:
+                                        salida = " "
+                                        if j == 5:
+                                            print(salida, end="       ")
+                                        elif j ==7:
+                                            print(salida, end="       ")
+                                        elif j ==8:
+                                            print(salida, end="       ")
                                         else:
-                                            print(" ", end="       ")
+                                            print(facturas[i][j], end="       ")
+                                            
 
                         if tipo == "a":
                             if mensualidad:
-                                print("      ","MENSUALIDAD VIGENTE.")
+                                print(" ","MENSUALIDAD VIGENTE.")
             else:
                 print("Opcion no valida. ")
 
@@ -352,7 +361,7 @@ def ingresar_vehiculo(consecutivo_cicla, consecutivo_vehiculos, mensualidades, t
             retorno = [vehiculo, factura]
             print("")
             print("¡Vehiculo ingresado con exito! ")
-            if placa == consecutivo_cicla:
+            if tipo == "b":
                 print("El consecutivo de la bicicleta es: ", consecutivo_cicla)
             print("----------------------------------------------------------------------")
 
@@ -439,54 +448,65 @@ def registrar_mensualidad(mensualidades, tarifas):
         if validez == False:
             bandera = False
             
+        if bandera == True:
+            print("")
+            ingreso = int(input("Ingrese la fecha de entrada (ddmmyyyy): >"))
+            print("")
+            dia = ingreso // 1000000
+            mes = (ingreso // 10000) % 100
+            año = ingreso % 10000
 
-        print("")
-        ingreso = int(input("Ingrese la fecha de entrada (ddmmyyyy): >"))
-        print("")
-        dia = ingreso // 1000000
-        mes = (ingreso // 10000) % 100
-        año = ingreso % 10000
+            if mes > 12:
+                bandera = False
+            if mes <= 0:
+                bandera = False
 
-        if mes > 12:
-            bandera = False
-        if mes <= 0:
-            bandera = False
-
-        if año % 4 == 0:
-            if año % 100 != 0:
-                bisiesto = True
-            else:
-                if año % 400 == 0:
+            if año % 4 == 0:
+                if año % 100 != 0:
                     bisiesto = True
                 else:
-                    bisiesto = False
+                    if año % 400 == 0:
+                        bisiesto = True
+                    else:
+                        bisiesto = False
+            else:
+                bisiesto = False
+
+            if año <= 0:
+                bandera = False
+
+            dias_supuestos = dias_en_mes(mes, bisiesto)
+            if dia > dias_supuestos:
+                bandera = False
+            if dia <= 0:
+                bandera = False
+
+            if bandera == True:
+                vigencia = fecha_vigencia(ingreso, bisiesto)
+                cliente = input("Ingrese el nombre del cliente: >")
+                print("")
+                total = tarifas[3]
+
+                mensualidad.append(num)
+                mensualidad.append(placa)
+                mensualidad.append(ingreso)
+                mensualidad.append(vigencia)
+                mensualidad.append(cliente)
+                mensualidad.append(total)
+
+                print("Mensualidad registrada con exito. ")
+                print("----------------------------------------------------------------------")
+                print("Factura de Mensualidad No: ", num)
+                print("Num Placa del Auto:", placa)
+                print("Fecha ingreso:", ingreso)
+                print("Vigencia hasta:", vigencia)   
+                print("Nombre:", cliente)
+                print("Total:", total)
+                print("----------------------------------------------------------------------")
+            else:
+                print("Fecha ingresada no valida. ")
         else:
-            bisiesto = False
-
-        if año <= 0:
-            bandera = False
-
-        dias_supuestos = dias_en_mes(mes, bisiesto)
-        if dia > dias_supuestos:
-            bandera = False
-        if dia <= 0:
-            bandera = False
-
-        if bandera == True:
-            vigencia = fecha_vigencia(ingreso, bisiesto)
-            cliente = input("Ingrese el nombre del cliente: >")
-            print("")
-            total = tarifas[3]
-
-            mensualidad.append(num)
-            mensualidad.append(placa)
-            mensualidad.append(ingreso)
-            mensualidad.append(vigencia)
-            mensualidad.append(cliente)
-            mensualidad.append(total)
-
-        else:
-            print("Fecha o placa ingresada no valida. ")
+            print("Placa no valida. ")
 
     return mensualidad
 
