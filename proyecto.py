@@ -629,7 +629,7 @@ def mostrar_mensualidades(mensualidades):
 
     print("----------------------------------------------------------------------")
 
-def salida_vehiculo(facturas, lista_tarifas, vehiculos):
+def salida_vehiculo(facturas, lista_tarifas):
     bandera = False
 
     while bandera == False:
@@ -659,10 +659,11 @@ def salida_vehiculo(facturas, lista_tarifas, vehiculos):
             pos = -1
 
             if tipo == "b":
+                print("")
                 print("Bicicletas registradas:")
-                for i in range(0,len(vehiculos)):
-                    if vehiculos[i][1]=="b":
-                        print([i][2])
+                for i in range(0,len(facturas)):
+                    if facturas[i][2]=="b":
+                        print(facturas[i][1])
                 print("")
                 consecutivo = input("Ingrese el consecutivo de la bicicleta: >")
                 i = 0
