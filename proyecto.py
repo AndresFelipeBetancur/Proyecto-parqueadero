@@ -29,9 +29,9 @@ def mostrar_registros(facturas,mensualidades):
             if tipo != 0:
                 print("Tipo de busqueda:", nombre_vehiculo)
                 if tipo == "a":
-                    print("FACTURA  PLACA        FECHA         INGRESO    SALIDA    MINUTOS  TOTAL    OBSERVACIÓN")
+                    print("FACTURA  PLACA        FECHA       INGRESO    SALIDA    MINUTOS  TOTAL    OBSERVACIÓN")
                 else:
-                    print("FACTURA  PLACA        FECHA         INGRESO    SALIDA    MINUTOS  TOTAL      ")
+                    print("FACTURA  PLACA        FECHA       INGRESO    SALIDA    MINUTOS  TOTAL      ")
 
 
                 for i in range(0, len(facturas)):
@@ -291,7 +291,6 @@ def ingresar_vehiculo(consecutivo_cicla, consecutivo_vehiculos, mensualidades, t
         print("Recuerde tambien que la placa debe estar en mayúsculas. ")
         return False
 
-
     esta_registrado = buscar_placa(placa, facturas)
 
     if esta_registrado:
@@ -361,9 +360,8 @@ def ingresar_vehiculo(consecutivo_cicla, consecutivo_vehiculos, mensualidades, t
             
             print("Ingreso no valido (Revise la fecha). ")
             retorno = False
-
-    return retorno
     print("----------------------------------------------------------------------")
+    return retorno
 
 
 def dias_en_mes(mes, bisiesto):
@@ -609,7 +607,7 @@ def tarifas(lista):
 def mostrar_mensualidades(mensualidades):
     print("----------------------------------------------------------------------")
     print("MENSUALIDADES")
-    print("NUM   PLACA        CLIENTE              DESDE       HASTA       TOTAL")
+    print("NUM   PLACA        CLIENTE      DESDE       HASTA       TOTAL")
 
     for i in range(0,len(mensualidades)):
 
@@ -629,7 +627,6 @@ def mostrar_mensualidades(mensualidades):
             total
         )
 
-
     print("----------------------------------------------------------------------")
 
 def salida_vehiculo(facturas, lista_tarifas):
@@ -643,7 +640,7 @@ def salida_vehiculo(facturas, lista_tarifas):
         print("4. Regresar al menú principal.")
         opc = int(input("Ingrese una opcion: >"))
         if opc == 4:
-            return
+            return facturas
 
         if opc == 1:
             tipo = "m"
@@ -756,12 +753,7 @@ def salida_vehiculo(facturas, lista_tarifas):
             print("----------------------------------------------------------------------")
     return facturas
 def buscar_factura(facturas):
-    num = input("Digite el número de la Factura: >")
-    if num.isdigit() == False:
-        print("Número de factura inválido.")
-        print("----------------------------------------------------------------------")
-        return
-    num = int(num)
+    num =int(input("Digite el número de la Factura: > "))
     encontrada = False
     i = 0
     while i < len(facturas):
