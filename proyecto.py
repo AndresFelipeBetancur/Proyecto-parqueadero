@@ -719,6 +719,10 @@ def salida_vehiculo(facturas, lista_tarifas):
                 print("Hora inválida.")
                 print("----------------------------------------------------------------------")
                 bandera = False
+            if hora_s == facturas[pos][4]:
+                print("La hora de salida no debe ser igual al de entrada.")
+                print("----------------------------------------------------------------------")
+                bandera = False
 
         if bandera == True:
             hora_ing = facturas[pos][4]
