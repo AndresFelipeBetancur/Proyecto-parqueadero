@@ -1,5 +1,4 @@
 
-
 def mostrar_registros(facturas,mensualidades):
     opc = 0
    
@@ -68,7 +67,7 @@ def mostrar_registros(facturas,mensualidades):
 
 
 
-def buscar_vehiculo(facturas):
+def buscar_vehiculo(facturas,mensualidades):
     opc = 0
     placa = False
 
@@ -88,6 +87,7 @@ def buscar_vehiculo(facturas):
             if opc == 2:
                 placa = input("Ingrese la placa del automovil: (3 letras seguidas de 3 números) >")
                 nombre_vehiculo = "Automóvil"
+                
             if opc == 3:
                 placa = input("Ingrese el consecutivo de la bicicleta: >")
                 nombre_vehiculo = "Bicicleta"
@@ -100,6 +100,10 @@ def buscar_vehiculo(facturas):
                         print("Factura No: ", facturas[i][0])
                         print("Num Placa:: ", facturas[i][1])
                         print("Vehículo tipo: ", nombre_vehiculo)
+                        if opc == 2:
+                            mensualidad = buscar_mensualidad(placa, mensualidades, facturas[i][3])
+                            if mensualidad:
+                                print("Mensualidad: Vigente.")
                         print("Fecha de ingreso: ", facturas[i][3])
                         print("Hora de ingreso: ", facturas[i][4])
 
@@ -887,7 +891,7 @@ def menu():
                 consecutivo_facturas = consecutivo_facturas + 1
 
         if opc == 4:
-            buscar_vehiculo(facturas)
+            buscar_vehiculo(facturas,mensualidades)
 
         if opc == 5:
             mostrar_registros(facturas,mensualidades )
