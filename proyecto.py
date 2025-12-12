@@ -704,11 +704,13 @@ def salida_vehiculo(facturas, lista_tarifas):
                         i = i + 1
             else:
                 print("")
-                print("Vehiculos Registrados:")
+                print("Automoviles Registrados:")
                 for i in range(0,len(facturas)):
                     if facturas[i][2]=="a":
                         print(facturas[i][1])
-
+                print("")
+                print("Motos Registradas:")
+                for i in range(0,len(facturas)):
                     if facturas[i][2]=="m":
                         print(facturas[i][1])
                 print("")
