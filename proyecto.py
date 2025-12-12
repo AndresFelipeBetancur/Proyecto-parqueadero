@@ -708,11 +708,15 @@ def salida_vehiculo(facturas, lista_tarifas):
                         i = i + 1
             else:
                 print("")
-                print("Vehiculos Registrados:")
+                print("Automoviles Registrados:")
                 for i in range(0,len(facturas)):
                     if facturas[i][2]=="a":
-                        if facturas[i][2]=="m":
-                            print(facturas[i][1])
+                        print(facturas[i][1])
+                print("")
+                print("Motos Registradas:")
+                for i in range(0,len(facturas)):
+                    if facturas[i][2]=="m":
+                        print(facturas[i][1])
                 print("")
                 placa = input("Ingrese la placa: >")
                 i = 0
@@ -751,7 +755,7 @@ def salida_vehiculo(facturas, lista_tarifas):
                 print("----------------------------------------------------------------------")
                 bandera = False
             if hora_s == facturas[pos][4]:
-                print("La hora de salida no debe ser igual al de entrada.")
+                print("La Hora de salida no debe ser igual a la Hora de entrada.")
                 print("----------------------------------------------------------------------")
                 bandera = False
 
